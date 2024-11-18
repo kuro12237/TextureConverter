@@ -12,7 +12,7 @@ public:
 	/// </summary>
 	/// <param name="directory"></param>
 	/// <param name="filePath"></param>
-	void ConvertTextureWICToDDS(const std::string& directory,const std::string& filePath);
+	void ConvertTextureWICToDDS(const std::string& filePath);
 
 	//6–‡‚Ìpng‚ðcubeMap‚É•ÏŠ·
 	void ConvertTextureWICToCubemap(const std::string& directorys, const std::vector<std::string>& filePaths);

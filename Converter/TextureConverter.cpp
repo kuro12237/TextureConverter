@@ -4,14 +4,13 @@
 
 using namespace DirectX;
 
-void TextureConverter::ConvertTextureWICToDDS(const std::string& directory, const std::string& filePath)
+void TextureConverter::ConvertTextureWICToDDS(const std::string& filePath)
 {
 	size_t posl;
 	std::wstring exceptExt;
 	HRESULT hr;
 
-	std::wstring wFilePath = ConvertStringToWstring(directory);
-	std::wstring loadFileName = ConvertStringToWstring(directory + "input/" + filePath);
+	std::wstring loadFileName = ConvertStringToWstring(filePath);
 
 	fileName_ = ConvertStringToWstring(filePath);
 	//•ª‰ð
@@ -27,7 +26,7 @@ void TextureConverter::ConvertTextureWICToDDS(const std::string& directory, cons
 		exceptExt = fileName_;
 	}
 
-	directryPath_ = wFilePath;
+	directryPath_ = L"";
 	fileName_ = exceptExt;
 
 	std::wcout << L"FilePath :: " + loadFileName << std::endl;
@@ -271,7 +270,7 @@ void TextureConverter::SaveDDSTextureToFile()
 
 	//ŽÀÛ‚Éì¬
 	metadata_.format = MakeSRGB(metadata_.format);
-	std::wstring filePath = directryPath_ + L"output/" + fileName_ + L".dds";
+	std::wstring filePath = directryPath_ + fileName_ + L".dds";
 
 
 	std::wcout << L"FilePath :: " + filePath + L"\n" << std::endl;
