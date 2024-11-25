@@ -4,7 +4,7 @@
 
 using namespace DirectX;
 
-void TextureConverter::ConvertTextureWICToDDS(const std::string& filePath)
+void TextureConverter::ConvertTextureWICToDDS(const std::string& filePath, int numOptions, char* options[])
 {
 	size_t posl;
 	std::wstring exceptExt;
@@ -33,7 +33,7 @@ void TextureConverter::ConvertTextureWICToDDS(const std::string& filePath)
 
 	hr = LoadFromWICFile(loadFileName.c_str(), WIC_FLAGS_NONE, &metadata_, scratchImage_);
 	assert(SUCCEEDED(hr));
-	SaveDDSTextureToFile();
+	SaveDDSTextureToFile(numOptions,options);
 }
 
 void TextureConverter::ConvertTextureWICToCubemap(const std::string& directorys, const std::vector<std::string>& filePaths)
@@ -240,15 +240,36 @@ void TextureConverter::CreateCubeMapFromTextures(const std::wstring& posY, const
 	assert(SUCCEEDED(hr));
 }
 
-void TextureConverter::SaveDDSTextureToFile()
+void TextureConverter::OutputUsage()
 {
+	printf("画像ファイルからWIC形式からDDSに変換");
+	printf("\n");
+	printf("TextureConverter[ドライブ:][パス]ファイル名 [-ml level]\n");
+	printf("\n");
+	printf("[ドライブ:][パス][ファイル名]: 変換したいWC形式の画像ファイルを指定");
+	printf("\n");
+	printf("[-ml level]:みっぷレベルの指定");
+
+}
+
+void TextureConverter::SaveDDSTextureToFile(int numOptions, char* options[])
+{
+	size_t mipLevel = 0;
+	for (int i = 0; i < numOptions; i++)
+	{
+		if (std::string(options[i]) == "-ml") {
+			mipLevel = std::atoi(options[i + 1]);
+			break;
+		}
+	}
+
 	HRESULT hr;
 
 	//mipmapの作成
 	ScratchImage mipChain;
 	hr = GenerateMipMaps(
 		scratchImage_.GetImages(), scratchImage_.GetImageCount(), scratchImage_.GetMetadata(),
-		TEX_FILTER_DEFAULT, 0, mipChain);
+		TEX_FILTER_DEFAULT, mipLevel, mipChain);
 
 	if (SUCCEEDED(hr))
 	{

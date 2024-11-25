@@ -12,11 +12,11 @@ public:
 	/// </summary>
 	/// <param name="directory"></param>
 	/// <param name="filePath"></param>
-	void ConvertTextureWICToDDS(const std::string& filePath);
+	void ConvertTextureWICToDDS(const std::string& filePath, int numOptions = 0, char* options[] = nullptr);
 
 	//6ñáÇÃpngÇcubeMapÇ…ïœä∑
 	void ConvertTextureWICToCubemap(const std::string& directorys, const std::vector<std::string>& filePaths);
-	
+
 	/// <summary>
 	/// ñ¢äÆê¨
 	/// </summary>
@@ -37,9 +37,12 @@ public:
 		const std::wstring& negZ,
 		const std::wstring& outputName);
 
+	static void OutputUsage();
+
+
 private:
 
-	void SaveDDSTextureToFile();
+	void SaveDDSTextureToFile(int numOptions = 0, char* options[] = nullptr);
 
 	void SaveHdrToDDSTextureToFile();
 
